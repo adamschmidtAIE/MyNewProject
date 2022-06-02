@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishMovement : MonoBehaviour
+public class FishWorldMovement : MonoBehaviour
 {
     public float moveSpeed;
     public float rotateSpeed;
