@@ -25,7 +25,7 @@ public class FishGameMovement : MonoBehaviour
     {
         transform.Rotate(Vector3.forward * moveSpeed * Time.deltaTime);
         yPos += Mathf.Sin(Time.timeSinceLevelLoad * 4f) * floatSpeed;
-        transform.localPosition = Vector3.up * yPos;
+        //transform.localPosition = Vector3.up * yPos;
     }
 
     IEnumerator ChangeSpeed()

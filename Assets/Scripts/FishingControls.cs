@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FishingControls : MonoBehaviour
 {
+    public GameObject catchCanvas;
     public AnimationState holdState;
     public AnimationState reelState;
     public AnimationState castState;
     public Bobber bobber;
     public Vector3 force;
+    public Text announcementText;
 
     private Vector3 bobberRestPos;
     private States state;
     private AnimationState currentAnimationState;
     private float castMultiplier;
+    private float fishEscapeAngleTimer;
+    private Vector3 fishEscapeDirection;
 
     [System.Serializable]
     public class AnimationState
@@ -42,6 +47,8 @@ public class FishingControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        announcementText.color = Color.Lerp(announcementText.color, Color.clear, 0.02f * Time.deltaTime);
+
         if (state == States.Hold)
         {
             if (Input.GetMouseButtonDown(0))
@@ -100,5 +107,28 @@ public class FishingControls : MonoBehaviour
         bobber.transform.localPosition = bobberRestPos;
         state = States.Hold;
         currentAnimationState = holdState;
+
+        catchCanvas.SetActive(false);
+        Invoke("CaughtFish", 0.6f);
+    }
+
+    //Fish "Escaping", move bobber around randomly
+    public void EscapeBobber()
+    {
+        fishEscapeAngleTimer -= Time.deltaTime;
+        if (fishEscapeAngleTimer <= 0)
+        {
+            fishEscapeDirection = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)).normalized;
+            fishEscapeAngleTimer = 0.6f;
+        }
+
+        bobber.transform.position += fishEscapeDirection * 3 * Time.deltaTime;
+        
+    }
+
+    public void CaughtFish()
+    {
+        announcementText.text = "Caught: Herring (" + string.Format("{0:F1}", Random.Range(12f, 22f)) + " inches)";
+        announcementText.color = Color.white;
     }
 }

@@ -8,11 +8,13 @@ public class Bobber : MonoBehaviour
     public Transform lake;
     public float reelSpeed;
     public FishingControls fishingControls;
+    public GameObject captureScreen;
     public LayerMask notWater;
 
     private Rigidbody rb;
     private LineRenderer line;
     private bool cast;
+    private bool hooked;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,11 @@ public class Bobber : MonoBehaviour
             Vector3 position = transform.position;
             position.y = lake.position.y;
             transform.position = position;
+
+            if (Random.Range(0, 100) == 1)
+            {
+                captureScreen.SetActive(true);
+            }
         }
     }
 
